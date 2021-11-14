@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package proto;
+
+option go_package = "./proto";
+
+service TokenRing{
+    rpc passToken(Token) returns (Empty);
+    rpc recieveToken(Empty) returns (stream Token);
+}
+
+message Token{
+    int64 id = 1;
+}
+
+message Empty {
+
+}
