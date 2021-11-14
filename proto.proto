@@ -4,7 +4,14 @@ package proto;
 
 option go_package = "./proto";
 
-message receiveToken{
-    int id = 1;
+service Token{
+    rpc passToken(sendToken) returns (receiveToken);
+}
 
+message receiveToken{
+    int64 id = 1;
+}
+
+message sendToken{
+    int64 id = 1;
 }
