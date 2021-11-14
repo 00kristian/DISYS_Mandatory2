@@ -1,4 +1,4 @@
-module main
+module github.com/00kristian/DISYS_Mandatory2/tree/docker
 
 go 1.17
 
