@@ -5,8 +5,8 @@ package proto;
 option go_package = "./proto";
 
 service TokenRing{
-    rpc passToken(Token) returns (Empty);
-    rpc recieveToken(Empty) returns (stream Token);
+    rpc PassToken(Token) returns (Empty); 
+    rpc Listen(Empty) returns (stream Token);
 }
 
 message Token{
