@@ -5,14 +5,12 @@ import (
 	"log"
 	"net"
 	"os"
-	"sync"
 	"time"
 
 	"github.com/00kristian/DISYS_Mandatory2/tree/docker/proto"
 	"google.golang.org/grpc"
 )
 
-var wait *sync.WaitGroup
 // Target port for the next node in the ring
 var targetPort string
 
@@ -26,6 +24,7 @@ var client proto.TokenRingClient
 
 // Boolean indicating starter node
 var starterNode bool
+
 type Connection struct{
 	stream proto.TokenRing_ListenServer
 	error chan error
@@ -36,31 +35,14 @@ type NodeServer struct {
 }
 
 func main() {
-	wait = &sync.WaitGroup{}
 	// init port and traget port - start off the service with flag
 	
-	//reader := bufio.NewReader(os.Stdin)
-
-	//starter, _ := reader.ReadString('\n')
-	//starter = strings.TrimSpace(starter)
 	starter := os.Args[1]
 	if starter == "Y" {
 		starterNode = true
 	} else {
 		starterNode = false
 	}
-
-	// temp, _ := reader.ReadString('\n')
-	// temp = strings.TrimSpace(temp)
-
-	// temp2, _ := reader.ReadString('\n')
-	// temp2 = strings.TrimSpace(temp2)
-
-	// temp3, _ := reader.ReadString('\n')
-	// temp3 = strings.TrimSpace(temp3)
-
-	// temp4, _ := reader.ReadString('\n')
-	// temp4 = strings.TrimSpace(temp4)
 
 	port = os.Args[2]
 	targetPort = os.Args[3]
@@ -85,9 +67,7 @@ func start(p, tP, rP string) {
 	// Register this node's server to the grpc
 	proto.RegisterTokenRingServer(grpcServer, server)
 	
-	//wait.Add(1)
 	go func() {
-		//defer wait.Done()
 		// Establish a connection to the next node in the ring
 		conn, _ := grpc.Dial(p, grpc.WithInsecure())
 		// Close the conneciton when the method exits
